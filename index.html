@@ -55,11 +55,17 @@
 
                         const cardTitle = document.createElement('div')
                         cardTitle.textContent = item.key
+                        cardTitle.style.fontSize = '1.5em'
+                        cardTitle.style.fontWeight = 'bold'
                         cardBody.appendChild(cardTitle)
 
                         const cardText = document.createElement('div')
                         cardText.textContent = item.root
                         cardBody.appendChild(cardText)
+
+                        const cardTextArea = document.createElement('textarea')
+                        cardTextArea.value = item.svg
+                        cardBody.appendChild(cardTextArea)
 
                         const cardButton = document.createElement('a')
                         cardButton.className = "btn btn-primary"
@@ -67,14 +73,22 @@
                         cardButton.href = '#'
                         cardButton.addEventListener('click', event => {
                             event.preventDefault()
-                            const copyEvent = new ClipboardEvent(
-                                'copy',
-                                {
-                                    dataType: 'text/plain',
-                                    data: item.svg
-                                }
-                            )
-                            document.dispatchEvent(copyEvent)
+
+                            cardTextArea.select();
+                            cardTextArea.setSelectionRange(0, 99999); /*For mobile devices*/
+
+                            const range = document.createRange();  
+                            range.selectNode(cardTextArea);  
+                            window.getSelection().addRange(range);  
+                            try {  
+                                // Now that we've selected the anchor text, execute the copy command  
+                                const successful = document.execCommand('copy');  
+                                const msg = successful ? 'successful' : 'unsuccessful';  
+                                console.log('Copy ' + msg);  
+                            } catch(err) {  
+                                console.log('Oops, unable to copy');  
+                            }  
+
                         })
                         cardBody.appendChild(cardButton)
 
