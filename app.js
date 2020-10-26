@@ -26,6 +26,6 @@ app.get('/similar/:word', async (req, res) => {
 })
 
 app.listen(port, () => {
-  search('nice')
+  // search('nice')
   console.log(`SemanticIcon listening at http://localhost:${port}`)
 })
